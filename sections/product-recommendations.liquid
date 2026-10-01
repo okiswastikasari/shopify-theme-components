@@ -1,0 +1,455 @@
+{% liquid
+
+assign rec_collection = blank
+
+for block in section.blocks
+
+  assign target_tag = block.settings.product_tag | downcase
+
+  for tag in product.tags
+
+    assign current_tag = tag | downcase
+
+    if current_tag contains target_tag
+
+      assign rec_collection = collections[block.settings.collection]
+      break
+
+    endif
+
+  endfor
+
+  if rec_collection != blank
+    break
+  endif
+
+endfor
+
+%}
+
+
+
+{% if rec_collection != blank %}
+
+<section class="product-recommendations">
+
+<div class="recommendation-header">
+
+<h2>
+{{ section.settings.title }}
+</h2>
+
+<div class="recommendation-buttons">
+
+<button class="recommend-prev">
+‹
+</button>
+
+<button class="recommend-next">
+›
+</button>
+
+</div>
+
+</div>
+
+
+
+<div class="recommendation-slider">
+
+
+{% for item in rec_collection.products limit: section.settings.products_limit %}
+
+
+{% unless item.id == product.id %}
+
+
+<a href="{{ item.url }}" class="recommend-card">
+
+
+<div class="recommend-image">
+
+
+<img
+src="{{ item.featured_image | image_url: width:600 }}"
+alt="{{ item.title | escape }}"
+loading="lazy"
+>
+
+
+</div>
+
+
+<div class="recommend-info">
+
+<p>
+{{ item.title }}
+</p>
+
+<span>
+{{ item.price | money }}
+</span>
+
+</div>
+
+
+</a>
+
+
+{% endunless %}
+
+
+{% endfor %}
+
+
+</div>
+
+
+</section>
+
+
+{% endif %}
+
+
+
+
+
+<style>
+
+.product-recommendations{
+
+padding:35px 20px;
+
+}
+
+
+.recommendation-header{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+position:relative;
+
+margin-bottom:20px;
+
+}
+
+
+.recommendation-header h2{
+
+font-size:20px;
+
+font-weight:400;
+
+letter-spacing:.08em;
+
+margin:0;
+
+}
+
+
+
+.recommendation-buttons{
+
+position:absolute;
+
+right:0;
+
+display:flex;
+
+gap:8px;
+
+}
+
+
+
+.recommendation-buttons button{
+
+width:35px;
+
+height:35px;
+
+border-radius:50%;
+
+border:1px solid #ddd;
+
+background:white;
+
+cursor:pointer;
+
+font-size:22px;
+
+}
+
+
+
+.recommendation-slider{
+
+display:flex;
+
+gap:16px;
+
+overflow-x:auto;
+
+scroll-behavior:smooth;
+
+scrollbar-width:none;
+
+}
+
+
+.recommendation-slider::-webkit-scrollbar{
+
+display:none;
+
+}
+
+
+.recommend-card{
+
+flex:0 0 calc(20% - 13px);
+
+text-decoration:none;
+
+color:#000;
+
+text-align:center;
+
+}
+
+
+.recommend-image img{
+
+width:100%;
+
+aspect-ratio:3/4;
+
+object-fit:cover;
+
+}
+
+
+
+.recommend-info p{
+
+font-size:13px;
+
+margin:10px 0 5px;
+
+}
+
+
+.recommend-info span{
+
+font-size:13px;
+
+font-weight:bold;
+
+}
+
+
+
+
+@media(max-width:768px){
+
+.recommend-card{
+
+flex:0 0 48%;
+
+}
+
+.recommendation-buttons{
+
+display:none;
+
+}
+
+}
+
+
+</style>
+
+
+
+
+
+<script>
+
+document.addEventListener(
+'DOMContentLoaded',
+function(){
+
+document.querySelectorAll(
+'.product-recommendations'
+)
+.forEach(function(section){
+
+
+let slider =
+section.querySelector(
+'.recommendation-slider'
+);
+
+
+let next =
+section.querySelector(
+'.recommend-next'
+);
+
+
+let prev =
+section.querySelector(
+'.recommend-prev'
+);
+
+
+
+next?.addEventListener(
+'click',
+function(){
+
+slider.scrollBy({
+
+left:slider.offsetWidth,
+
+behavior:'smooth'
+
+});
+
+});
+
+
+prev?.addEventListener(
+'click',
+function(){
+
+slider.scrollBy({
+
+left:-slider.offsetWidth,
+
+behavior:'smooth'
+
+});
+
+});
+
+
+});
+
+
+});
+
+
+</script>
+
+
+
+
+
+{% schema %}
+
+{
+
+"name":"Product Recommendations",
+
+"settings":[
+
+
+{
+
+"type":"text",
+
+"id":"title",
+
+"label":"Title",
+
+"default":"RECOMMENDED FOR YOU"
+
+},
+
+
+{
+
+"type":"range",
+
+"id":"products_limit",
+
+"label":"Products",
+
+"min":4,
+
+"max":20,
+
+"step":1,
+
+"default":8
+
+}
+
+
+],
+
+
+
+"blocks":[
+
+
+{
+
+"type":"rule",
+
+"name":"Recommendation Rule",
+
+"settings":[
+
+
+{
+
+"type":"text",
+
+"id":"product_tag",
+
+"label":"Product Tag",
+
+"default":"bikini"
+
+},
+
+
+{
+
+"type":"collection",
+
+"id":"collection",
+
+"label":"Recommendation Collection"
+
+}
+
+
+]
+
+}
+
+
+],
+
+
+
+"presets":[
+
+{
+
+"name":"Product Recommendations"
+
+}
+
+]
+
+
+}
+
+{% endschema %}
