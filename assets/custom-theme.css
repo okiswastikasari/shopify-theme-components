@@ -1,0 +1,20 @@
+/*
+ Shopify Theme Components
+ Custom styling
+*/
+
+
+.custom-product-card{
+
+text-align:center;
+
+}
+
+
+.custom-product-card img{
+
+width:100%;
+
+display:block;
+
+}
