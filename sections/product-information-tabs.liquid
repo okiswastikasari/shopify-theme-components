@@ -1,0 +1,178 @@
+<section class="product-information-tabs">
+
+<div class="info-container">
+
+
+<h2>
+{{ section.settings.heading }}
+</h2>
+
+
+
+<div class="info-grid">
+
+
+{% if product.metafields.custom.material != blank %}
+
+<div class="info-item">
+
+<h3>
+Material
+</h3>
+
+<p>
+{{ product.metafields.custom.material }}
+</p>
+
+</div>
+
+{% endif %}
+
+
+
+{% if product.metafields.custom.technology != blank %}
+
+<div class="info-item">
+
+<h3>
+Technology
+</h3>
+
+<p>
+{{ product.metafields.custom.technology }}
+</p>
+
+</div>
+
+{% endif %}
+
+
+
+{% if product.metafields.custom.care != blank %}
+
+<div class="info-item">
+
+<h3>
+Care
+</h3>
+
+<p>
+{{ product.metafields.custom.care }}
+</p>
+
+</div>
+
+{% endif %}
+
+
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+
+<style>
+
+.product-information-tabs{
+
+padding:40px 20px;
+
+}
+
+
+.info-grid{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:20px;
+
+}
+
+
+
+.info-item{
+
+border:1px solid #ddd;
+
+padding:20px;
+
+}
+
+
+
+.info-item h3{
+
+font-size:14px;
+
+}
+
+
+
+.info-item p{
+
+font-size:13px;
+
+}
+
+
+
+@media(max-width:768px){
+
+.info-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+</style>
+
+
+
+
+
+{% schema %}
+
+{
+
+"name":"Product Information Tabs",
+
+"settings":[
+
+{
+
+"type":"text",
+
+"id":"heading",
+
+"label":"Heading",
+
+"default":"PRODUCT DETAILS"
+
+}
+
+],
+
+
+"presets":[
+
+{
+
+"name":"Product Information Tabs"
+
+}
+
+]
+
+
+}
+
+{% endschema %}
