@@ -28,3 +28,15 @@ Examples of ecommerce applications:
 Shopify Theme Developer
 
 Building custom storefront experiences with Liquid, JavaScript, and Shopify Online Store 2.0.
+
+## Metafield Integration
+
+This project supports Shopify product metafields for dynamic product information.
+
+Example metafields:
+
+- custom.material
+- custom.technology
+- custom.care
+
+These values are rendered dynamically inside Shopify product pages.
