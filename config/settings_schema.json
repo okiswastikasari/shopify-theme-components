@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Custom Theme Components",
+    "settings": [
+      {
+        "type": "color",
+        "id": "primary_color",
+        "label": "Primary Brand Color",
+        "default": "#000000"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_sticky_cart",
+        "label": "Enable Sticky Add To Cart",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "button_style",
+        "label": "Button Style",
+        "options": [
+          {
+            "value": "solid",
+            "label": "Solid"
+          },
+          {
+            "value": "outline",
+            "label": "Outline"
+          }
+        ],
+        "default": "solid"
+      }
+    ]
+  }
+]
