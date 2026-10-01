@@ -1,0 +1,278 @@
+<section 
+id="sticky-atc-{{ section.id }}"
+class="sticky-atc-wrapper"
+>
+
+<div class="sticky-atc-inner">
+
+
+<div class="sticky-product-info">
+
+{% if product.featured_image %}
+
+<img
+src="{{ product.featured_image | image_url: width:100 }}"
+alt="{{ product.title }}"
+>
+
+{% endif %}
+
+
+<div>
+
+<p>
+{{ product.title }}
+</p>
+
+<span>
+{{ product.price | money }}
+</span>
+
+</div>
+
+</div>
+
+
+
+<form method="post" action="/cart/add">
+
+
+<select 
+name="id"
+class="sticky-variant"
+>
+
+{% for variant in product.variants %}
+
+<option 
+value="{{ variant.id }}"
+{% unless variant.available %}
+disabled
+{% endunless %}
+>
+
+{{ variant.title }}
+
+{% unless variant.available %}
+- Sold Out
+{% endunless %}
+
+</option>
+
+
+{% endfor %}
+
+
+</select>
+
+
+
+<button type="submit">
+
+{{ section.settings.button_text }}
+
+</button>
+
+
+</form>
+
+
+</div>
+
+</section>
+
+
+
+
+<style>
+
+
+.sticky-atc-wrapper{
+
+position:fixed;
+
+bottom:0;
+
+left:0;
+
+right:0;
+
+background:white;
+
+border-top:1px solid #ddd;
+
+padding:12px 20px;
+
+z-index:99;
+
+}
+
+
+
+.sticky-atc-inner{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+max-width:1200px;
+
+margin:auto;
+
+gap:20px;
+
+}
+
+
+
+.sticky-product-info{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+}
+
+
+
+.sticky-product-info img{
+
+width:60px;
+
+height:60px;
+
+object-fit:cover;
+
+}
+
+
+
+.sticky-product-info p{
+
+margin:0;
+
+font-size:14px;
+
+}
+
+
+
+.sticky-product-info span{
+
+font-weight:bold;
+
+font-size:13px;
+
+}
+
+
+
+.sticky-atc-wrapper select{
+
+padding:12px;
+
+}
+
+
+
+.sticky-atc-wrapper button{
+
+padding:14px 35px;
+
+background:#000;
+
+color:#fff;
+
+border:none;
+
+cursor:pointer;
+
+}
+
+
+
+
+@media(max-width:768px){
+
+
+.sticky-atc-inner{
+
+flex-direction:column;
+
+align-items:stretch;
+
+}
+
+
+
+.sticky-atc-wrapper form{
+
+display:flex;
+
+gap:10px;
+
+}
+
+
+
+.sticky-atc-wrapper button{
+
+flex:1;
+
+}
+
+
+}
+
+
+</style>
+
+
+
+
+
+
+{% schema %}
+
+{
+
+"name":"Sticky Add To Cart",
+
+
+"settings":[
+
+
+{
+
+"type":"text",
+
+"id":"button_text",
+
+"label":"Button Text",
+
+"default":"ADD TO CART"
+
+}
+
+
+],
+
+
+"presets":[
+
+{
+
+"name":"Sticky Add To Cart"
+
+}
+
+]
+
+
+}
+
+{% endschema %}
